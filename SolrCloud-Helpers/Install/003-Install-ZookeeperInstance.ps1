@@ -152,7 +152,7 @@ function Install-ZooKeeperInstance
 {
 	param(
 		[string]$targetFolder = "C:\SolrCloud",
-		[string]$zkPackage = "https://mirrors.ukfast.co.uk/sites/ftp.apache.org/zookeeper/zookeeper-3.4.14/zookeeper-3.4.14.tar.gz",
+		[string]$zkPackage = "https://archive.apache.org/dist/zookeeper/zookeeper-3.4.14/zookeeper-3.4.14.tar.gz",
 		[string]$zkFolder = "ZK",
 		[int]$zkInstanceId = 1,
 		[int]$zkClientPort = 2971,

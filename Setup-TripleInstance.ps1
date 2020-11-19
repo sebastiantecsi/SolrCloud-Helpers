@@ -4,12 +4,13 @@
 ## Config data
 ##
 
-$targetFolder = "$([Environment]::GetFolderPath("Desktop"))\SolrCloud"
-$installService = $false
+$targetFolder = "c:\SolrCloud"
+$installService = $true
 $collectionPrefix = "search"
-$solrPackage = "https://archive.apache.org/dist/lucene/solr/7.2.1/solr-7.2.1.zip" # For Sitecore v9.1
+#$solrPackage = "https://archive.apache.org/dist/lucene/solr/7.2.1/solr-7.2.1.zip" # For Sitecore v9.1
 #$solrPackage = "https://archive.apache.org/dist/lucene/solr/7.5.0/solr-7.5.0.zip" # For Sitecore v9.2
 #$solrPackage = "https://archive.apache.org/dist/lucene/solr/8.1.1/solr-8.1.1.zip" # For Sitecore V9.3
+$solrPackage = "https://archive.apache.org/dist/lucene/solr/8.4.0/solr-8.4.0.zip" # For Sitecore V10
 
 $zkData = @(
 	@{Host = "localhost"; Folder="zk1"; InstanceID=1; ClientPort = 2971; EnsemblePorts="2981:2991"},
@@ -27,7 +28,8 @@ $solrData = @(
 ## Install process
 ##
 
-Install-Module "7Zip4Powershell"
+Install-Module "7Zip4Powershell" -force
+Remove-Module -Name "SolrCloud-Helpers"
 Import-Module ".\SolrCloud-Helpers" -DisableNameChecking
 
 $zkConnection = Make-ZookeeperConnection $zkData
@@ -76,5 +78,6 @@ foreach($instance in $solrData)
 {
 	Wait-ForSolrToStart $instance.Host $instance.ClientPort
 }
-
+Copy-Item ".\Config\xDB.zip" -Destination $targetFolder -Force
+Copy-Item ".\Config\Sitecore.zip" -Destination $targetFolder -Force
 Configure-SolrCollection -targetFolder $targetFolder -replicas $solrData.Length -solrHostname $solrData[0].Host -solrClientPort $solrData[0].ClientPort -collectionPrefix $collectionPrefix

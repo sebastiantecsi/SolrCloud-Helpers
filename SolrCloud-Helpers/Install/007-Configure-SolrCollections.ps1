@@ -234,12 +234,14 @@ function Configure-SolrCollection
 		[string]$collectionPrefix = "sc911"
 	)
 
-	$coreConfigFolder = Expand-Base64CoreConfig $targetFolder $zip
+	#$coreConfigFolder = Expand-Base64CoreConfig $targetFolder $zip
+	#$coreConfigFolder = "c:\Solution\SolrCloud-Helpers\Config"
+	$coreConfigFolder = $targetFolder
 
 	Upload-SolrConfigSet $solrHostname $solrClientPort "$coreConfigFolder\Sitecore.zip" "Sitecore"
 	Upload-SolrConfigSet $solrHostname $solrClientPort "$coreConfigFolder\xDB.zip" "xDB"
 
-	Remove-Item $coreConfigFolder -Recurse
+	#Remove-Item $coreConfigFolder -Recurse
 
 	$sitecoreCores = @(
 		"$($collectionPrefix)_core_index",
